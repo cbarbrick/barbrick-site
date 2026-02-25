@@ -32,7 +32,6 @@
     overflow-x: hidden;
   }
 
-  /* NAV */
   nav {
     position: fixed; top: 0; width: 100%; z-index: 100;
     padding: 20px 60px;
@@ -66,15 +65,12 @@
   }
   .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,63,255,0.4); }
 
-  /* HERO */
   .hero {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     position: relative; padding: 120px 60px 80px;
     overflow: hidden;
   }
-  .hero-bg {
-    position: absolute; inset: 0; z-index: 0;
-  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
   .hero-bg .orb {
     position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3;
     animation: float 8s ease-in-out infinite;
@@ -97,9 +93,7 @@
     66% { transform: translate(-20px, 15px) scale(0.95); }
   }
 
-  .hero-content {
-    position: relative; z-index: 2; max-width: 900px; text-align: center;
-  }
+  .hero-content { position: relative; z-index: 2; max-width: 900px; text-align: center; }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 8px 20px; border-radius: 50px;
@@ -117,6 +111,7 @@
   }
   .hero h1 .gradient-text {
     background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    white-space: nowrap;
   }
   .hero p {
     font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;
@@ -144,7 +139,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* SCROLLING LOGOS */
   .trust-bar {
     padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.04);
     border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -167,7 +161,6 @@
     100% { transform: translateX(-50%); }
   }
 
-  /* SECTION COMMON */
   section { padding: 120px 60px; position: relative; }
   .section-label {
     font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px;
@@ -182,7 +175,6 @@
     margin-bottom: 60px;
   }
 
-  /* SERVICES */
   .services { max-width: 1200px; margin: 0 auto; }
   .services-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -211,7 +203,6 @@
   .service-card:nth-child(3) .service-icon { background: rgba(255,108,255,0.1); border-color: rgba(255,108,255,0.15); }
   .service-card:nth-child(4) .service-icon { background: rgba(108,255,163,0.1); border-color: rgba(108,255,163,0.15); }
 
-  /* PROCESS */
   .process { max-width: 1200px; margin: 0 auto; }
   .process-steps {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
@@ -222,9 +213,7 @@
     height: 2px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
     z-index: 0;
   }
-  .step {
-    text-align: center; position: relative; z-index: 1; padding: 0 20px;
-  }
+  .step { text-align: center; position: relative; z-index: 1; padding: 0 20px; }
   .step-num {
     width: 70px; height: 70px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -242,7 +231,6 @@
   .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
   .step p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
 
-  /* STATS */
   .stats {
     display: flex; justify-content: center; gap: 80px; padding: 80px 60px;
     border-top: 1px solid rgba(255,255,255,0.04);
@@ -257,7 +245,6 @@
   }
   .stat-label { color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; }
 
-  /* USE CASES */
   .usecases { max-width: 1200px; margin: 0 auto; }
   .usecase-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -281,7 +268,6 @@
   .tag-ml { background: rgba(255,108,255,0.15); color: #f0abfc; }
   .tag-auto { background: rgba(108,255,163,0.15); color: #6cffA3; }
 
-  /* TESTIMONIAL */
   .testimonial-section { max-width: 800px; margin: 0 auto; text-align: center; }
   .testimonial-card {
     background: var(--bg-card); border-radius: 24px; padding: 50px;
@@ -299,7 +285,6 @@
   .testimonial-author { font-weight: 700; }
   .testimonial-role { color: var(--text-secondary); font-size: 0.9rem; }
 
-  /* CTA */
   .cta-section {
     max-width: 900px; margin: 0 auto; text-align: center;
     padding: 100px 60px;
@@ -321,7 +306,6 @@
   }
   .cta-box p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 36px; position: relative; }
 
-  /* FOOTER */
   footer {
     padding: 60px; border-top: 1px solid rgba(255,255,255,0.04);
     display: flex; justify-content: space-between; align-items: center;
@@ -333,7 +317,6 @@
   footer .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
   footer .footer-links a:hover { color: var(--text-primary); }
 
-  /* MOBILE */
   .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
   .mobile-toggle span { display: block; width: 24px; height: 2px; background: white; margin: 5px 0; transition: all 0.3s; }
 
@@ -347,6 +330,7 @@
     .process-steps::before { display: none; }
     footer { padding: 40px 24px; }
     .cta-box { padding: 50px 30px; }
+    .hero h1 .gradient-text { white-space: normal; }
   }
   @media (max-width: 600px) {
     .process-steps { grid-template-columns: 1fr; }
@@ -357,7 +341,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="logo">Barbrick <span>AI Strategies</span></div>
   <div class="nav-links">
@@ -372,7 +355,6 @@
   </button>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
     <div class="orb orb-1"></div>
@@ -382,7 +364,7 @@
   <div class="grid-overlay"></div>
   <div class="hero-content">
     <div class="hero-badge"><span class="dot"></span> AI Strategy for High-Growth Startups</div>
-    <h1>Turn AI Into Your <span class="gradient-text">Unfair Advantage</span></h1>
+    <h1>Turn AI Into Your <span class="gradient-text">Unfair&nbsp;Advantage</span></h1>
     <p>We help startups and scale-ups build real AI capabilities — from strategy and roadmapping to production-grade ML systems that drive growth.</p>
     <div class="hero-ctas">
       <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get Your AI Roadmap →</button>
@@ -391,7 +373,6 @@
   </div>
 </section>
 
-<!-- TRUST BAR -->
 <div class="trust-bar">
   <p>Trusted by forward-thinking teams</p>
   <div class="trust-scroll">
@@ -414,7 +395,6 @@
   </div>
 </div>
 
-<!-- SERVICES -->
 <section id="services">
   <div class="services">
     <div class="section-label">What We Do</div>
@@ -422,22 +402,22 @@
     <div class="section-subtitle">No bloated timelines. No PowerPoint theaters. We ship AI strategies and systems that create measurable impact — fast.</div>
     <div class="services-grid">
       <div class="service-card">
-        <div class="service-icon">🧭</div>
+        <div class="service-icon">&#x1F9ED;</div>
         <h3>AI Strategy & Roadmapping</h3>
         <p>We assess your data, team, and market to build a prioritized AI roadmap that aligns with your business goals — not just what's trendy.</p>
       </div>
       <div class="service-card">
-        <div class="service-icon">⚡</div>
+        <div class="service-icon">&#x26A1;</div>
         <h3>ML Model Development</h3>
         <p>From NLP and computer vision to recommendation engines, we design, train, and deploy custom ML models built for your specific use case.</p>
       </div>
       <div class="service-card">
-        <div class="service-icon">🔗</div>
+        <div class="service-icon">&#x1F517;</div>
         <h3>AI Integration & APIs</h3>
         <p>Seamlessly integrate LLMs, AI agents, and intelligent automation into your existing product stack without ripping and replacing.</p>
       </div>
       <div class="service-card">
-        <div class="service-icon">📈</div>
+        <div class="service-icon">&#x1F4C8;</div>
         <h3>Data Infrastructure</h3>
         <p>Build the pipelines, feature stores, and MLOps foundations needed to support AI at scale — from day one to Series C and beyond.</p>
       </div>
@@ -445,7 +425,6 @@
   </div>
 </section>
 
-<!-- PROCESS -->
 <section id="process" style="background: rgba(255,255,255,0.01);">
   <div class="process">
     <div style="text-align: center;">
@@ -478,7 +457,6 @@
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats" id="results">
   <div class="stat"><div class="stat-num">40+</div><div class="stat-label">AI Projects Delivered</div></div>
   <div class="stat"><div class="stat-num">3.2x</div><div class="stat-label">Avg. ROI for Clients</div></div>
@@ -486,7 +464,6 @@
   <div class="stat"><div class="stat-num">96%</div><div class="stat-label">Client Retention</div></div>
 </div>
 
-<!-- USE CASES -->
 <section id="solutions">
   <div class="usecases">
     <div class="section-label">Solutions</div>
@@ -527,7 +504,6 @@
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
 <section>
   <div class="testimonial-section">
     <div class="section-label">What Clients Say</div>
@@ -540,7 +516,6 @@
   </div>
 </section>
 
-<!-- CTA -->
 <section id="cta">
   <div class="cta-section" style="padding: 0;">
     <div class="cta-box">
@@ -551,11 +526,10 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-left">
     <div class="logo">Barbrick <span>AI Strategies</span></div>
-    <p>© 2026 Barbrick AI Strategies. All rights reserved.</p>
+    <p>&copy; 2026 Barbrick AI Strategies. All rights reserved.</p>
   </div>
   <div class="footer-links">
     <a href="#services">Services</a>
