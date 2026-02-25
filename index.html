@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbrick AI Strategies</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-dark: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #1a1a28;
+    --accent-1: #6c3fff;
+    --accent-2: #00d4ff;
+    --accent-3: #ff6cff;
+    --text-primary: #f0f0f5;
+    --text-secondary: #8888a0;
+    --gradient-1: linear-gradient(135deg, #6c3fff, #00d4ff);
+    --gradient-2: linear-gradient(135deg, #6c3fff, #ff6cff);
+    --gradient-3: linear-gradient(135deg, #00d4ff, #6c3fff, #ff6cff);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 20px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10,10,15,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(108,63,255,0.1);
+    transition: all 0.3s;
+  }
+  .logo {
+    font-size: 1.4rem; font-weight: 800;
+    background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+  .logo span { font-weight: 400; opacity: 0.7; -webkit-text-fill-color: var(--text-secondary); }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a {
+    color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    transition: color 0.3s; position: relative;
+  }
+  .nav-links a:hover { color: var(--text-primary); }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+    background: var(--gradient-1); transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .btn-nav {
+    padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+    border: none; cursor: pointer; transition: all 0.3s;
+    background: var(--gradient-1); color: white;
+  }
+  .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,63,255,0.4); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; padding: 120px 60px 80px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+  }
+  .hero-bg .orb {
+    position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3;
+    animation: float 8s ease-in-out infinite;
+  }
+  .hero-bg .orb-1 { width: 500px; height: 500px; background: var(--accent-1); top: -10%; right: 10%; }
+  .hero-bg .orb-2 { width: 400px; height: 400px; background: var(--accent-2); bottom: -5%; left: 5%; animation-delay: -3s; }
+  .hero-bg .orb-3 { width: 300px; height: 300px; background: var(--accent-3); top: 40%; left: 40%; animation-delay: -5s; }
+
+  .grid-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background-image:
+      linear-gradient(rgba(108,63,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,63,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 15px) scale(0.95); }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2; max-width: 900px; text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 20px; border-radius: 50px;
+    background: rgba(108,63,255,0.1); border: 1px solid rgba(108,63,255,0.2);
+    font-size: 0.85rem; color: var(--accent-2); margin-bottom: 32px;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900; line-height: 1.05;
+    margin-bottom: 24px; letter-spacing: -2px;
+    animation: fadeInUp 0.8s ease-out 0.1s both;
+  }
+  .hero h1 .gradient-text {
+    background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;
+    line-height: 1.7; animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+  .hero-ctas {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+  }
+  .btn-primary {
+    padding: 16px 36px; border-radius: 12px; font-weight: 700; font-size: 1rem;
+    border: none; cursor: pointer; color: white; background: var(--gradient-1);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(108,63,255,0.5); }
+  .btn-secondary {
+    padding: 16px 36px; border-radius: 12px; font-weight: 700; font-size: 1rem;
+    border: 1px solid rgba(255,255,255,0.15); cursor: pointer; color: var(--text-primary);
+    background: rgba(255,255,255,0.03); transition: all 0.3s; backdrop-filter: blur(10px);
+  }
+  .btn-secondary:hover { border-color: var(--accent-2); background: rgba(0,212,255,0.05); transform: translateY(-3px); }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLLING LOGOS */
+  .trust-bar {
+    padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    overflow: hidden; position: relative;
+  }
+  .trust-bar p {
+    text-align: center; font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 3px; color: var(--text-secondary); margin-bottom: 30px;
+  }
+  .trust-scroll {
+    display: flex; gap: 60px; animation: scroll 20s linear infinite;
+    width: max-content;
+  }
+  .trust-scroll .logo-item {
+    font-size: 1.3rem; font-weight: 700; color: rgba(255,255,255,0.15);
+    white-space: nowrap; letter-spacing: 2px;
+  }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTION COMMON */
+  section { padding: 120px 60px; position: relative; }
+  .section-label {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px;
+    color: var(--accent-2); margin-bottom: 16px; font-weight: 600;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 20px; line-height: 1.15;
+  }
+  .section-subtitle {
+    font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* SERVICES */
+  .services { max-width: 1200px; margin: 0 auto; }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .service-card {
+    background: var(--bg-card); border-radius: 20px; padding: 40px;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.4s; position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gradient-1); opacity: 0; transition: opacity 0.4s;
+  }
+  .service-card:hover { border-color: rgba(108,63,255,0.2); transform: translateY(-6px); background: var(--bg-card-hover); }
+  .service-card:hover::before { opacity: 1; }
+  .service-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 24px;
+    background: rgba(108,63,255,0.1); border: 1px solid rgba(108,63,255,0.15);
+  }
+  .service-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+  .service-card p { color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem; }
+  .service-card:nth-child(2) .service-icon { background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.15); }
+  .service-card:nth-child(3) .service-icon { background: rgba(255,108,255,0.1); border-color: rgba(255,108,255,0.15); }
+  .service-card:nth-child(4) .service-icon { background: rgba(108,255,163,0.1); border-color: rgba(108,255,163,0.15); }
+
+  /* PROCESS */
+  .process { max-width: 1200px; margin: 0 auto; }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    position: relative;
+  }
+  .process-steps::before {
+    content: ''; position: absolute; top: 35px; left: 10%; right: 10%;
+    height: 2px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
+    z-index: 0;
+  }
+  .step {
+    text-align: center; position: relative; z-index: 1; padding: 0 20px;
+  }
+  .step-num {
+    width: 70px; height: 70px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 800; margin: 0 auto 20px;
+    background: var(--bg-dark); border: 2px solid var(--accent-1);
+    transition: all 0.4s;
+  }
+  .step:nth-child(2) .step-num { border-color: var(--accent-2); }
+  .step:nth-child(3) .step-num { border-color: var(--accent-3); }
+  .step:nth-child(4) .step-num { border-color: #6cffA3; }
+  .step:hover .step-num { background: var(--accent-1); transform: scale(1.1); }
+  .step:nth-child(2):hover .step-num { background: var(--accent-2); }
+  .step:nth-child(3):hover .step-num { background: var(--accent-3); }
+  .step:nth-child(4):hover .step-num { background: #6cffA3; color: #0a0a0f; }
+  .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+  .step p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+  /* STATS */
+  .stats {
+    display: flex; justify-content: center; gap: 80px; padding: 80px 60px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: 3.5rem; font-weight: 900; letter-spacing: -2px;
+    background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .stat-label { color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; }
+
+  /* USE CASES */
+  .usecases { max-width: 1200px; margin: 0 auto; }
+  .usecase-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .usecase-card {
+    padding: 36px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(108,63,255,0.06), rgba(0,212,255,0.03));
+    border: 1px solid rgba(108,63,255,0.08);
+    transition: all 0.3s;
+  }
+  .usecase-card:hover { border-color: rgba(108,63,255,0.25); transform: translateY(-4px); }
+  .usecase-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+  .usecase-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+  .usecase-tag {
+    display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 0.75rem;
+    font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .tag-nlp { background: rgba(108,63,255,0.15); color: #a78bfa; }
+  .tag-cv { background: rgba(0,212,255,0.15); color: #67e8f9; }
+  .tag-ml { background: rgba(255,108,255,0.15); color: #f0abfc; }
+  .tag-auto { background: rgba(108,255,163,0.15); color: #6cffA3; }
+
+  /* TESTIMONIAL */
+  .testimonial-section { max-width: 800px; margin: 0 auto; text-align: center; }
+  .testimonial-card {
+    background: var(--bg-card); border-radius: 24px; padding: 50px;
+    border: 1px solid rgba(255,255,255,0.04); position: relative;
+  }
+  .testimonial-card .quote-mark {
+    font-size: 5rem; line-height: 1; background: var(--gradient-1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    position: absolute; top: 20px; left: 40px; font-family: Georgia, serif;
+  }
+  .testimonial-card blockquote {
+    font-size: 1.2rem; line-height: 1.8; color: var(--text-primary);
+    font-style: italic; margin-bottom: 24px; position: relative; z-index: 1;
+  }
+  .testimonial-author { font-weight: 700; }
+  .testimonial-role { color: var(--text-secondary); font-size: 0.9rem; }
+
+  /* CTA */
+  .cta-section {
+    max-width: 900px; margin: 0 auto; text-align: center;
+    padding: 100px 60px;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(108,63,255,0.12), rgba(0,212,255,0.08));
+    border: 1px solid rgba(108,63,255,0.15);
+    border-radius: 32px; padding: 80px 60px;
+    position: relative; overflow: hidden;
+  }
+  .cta-box::before {
+    content: ''; position: absolute; width: 300px; height: 300px;
+    background: var(--accent-1); filter: blur(120px); opacity: 0.15;
+    top: -100px; right: -50px; border-radius: 50%;
+  }
+  .cta-box h2 {
+    font-size: 2.5rem; font-weight: 800; margin-bottom: 16px;
+    letter-spacing: -1px; position: relative;
+  }
+  .cta-box p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 36px; position: relative; }
+
+  /* FOOTER */
+  footer {
+    padding: 60px; border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 20px;
+  }
+  footer .footer-left .logo { margin-bottom: 8px; }
+  footer .footer-left p { color: var(--text-secondary); font-size: 0.85rem; }
+  footer .footer-links { display: flex; gap: 30px; }
+  footer .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+  footer .footer-links a:hover { color: var(--text-primary); }
+
+  /* MOBILE */
+  .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+  .mobile-toggle span { display: block; width: 24px; height: 2px; background: white; margin: 5px 0; transition: all 0.3s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: block; }
+    section, .hero { padding: 80px 24px; }
+    .stats { gap: 40px; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .process-steps::before { display: none; }
+    footer { padding: 40px 24px; }
+    .cta-box { padding: 50px 30px; }
+  }
+  @media (max-width: 600px) {
+    .process-steps { grid-template-columns: 1fr; }
+    .stats { gap: 30px; }
+    .stat-num { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Barbrick <span>AI Strategies</span></div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#results">Results</a>
+    <button class="btn-nav" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Book a Call</button>
+  </div>
+  <button class="mobile-toggle" onclick="this.classList.toggle('active')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> AI Strategy for High-Growth Startups</div>
+    <h1>Turn AI Into Your <span class="gradient-text">Unfair Advantage</span></h1>
+    <p>We help startups and scale-ups build real AI capabilities — from strategy and roadmapping to production-grade ML systems that drive growth.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get Your AI Roadmap →</button>
+      <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Explore Services</button>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <p>Trusted by forward-thinking teams</p>
+  <div class="trust-scroll">
+    <span class="logo-item">TECHSTARS</span>
+    <span class="logo-item">Y COMBINATOR</span>
+    <span class="logo-item">SEQUOIA</span>
+    <span class="logo-item">A16Z</span>
+    <span class="logo-item">STRIPE</span>
+    <span class="logo-item">NOTION</span>
+    <span class="logo-item">FIGMA</span>
+    <span class="logo-item">VERCEL</span>
+    <span class="logo-item">TECHSTARS</span>
+    <span class="logo-item">Y COMBINATOR</span>
+    <span class="logo-item">SEQUOIA</span>
+    <span class="logo-item">A16Z</span>
+    <span class="logo-item">STRIPE</span>
+    <span class="logo-item">NOTION</span>
+    <span class="logo-item">FIGMA</span>
+    <span class="logo-item">VERCEL</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services">
+    <div class="section-label">What We Do</div>
+    <div class="section-title">AI Services Built for Speed</div>
+    <div class="section-subtitle">No bloated timelines. No PowerPoint theaters. We ship AI strategies and systems that create measurable impact — fast.</div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🧭</div>
+        <h3>AI Strategy & Roadmapping</h3>
+        <p>We assess your data, team, and market to build a prioritized AI roadmap that aligns with your business goals — not just what's trendy.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <h3>ML Model Development</h3>
+        <p>From NLP and computer vision to recommendation engines, we design, train, and deploy custom ML models built for your specific use case.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔗</div>
+        <h3>AI Integration & APIs</h3>
+        <p>Seamlessly integrate LLMs, AI agents, and intelligent automation into your existing product stack without ripping and replacing.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3>Data Infrastructure</h3>
+        <p>Build the pipelines, feature stores, and MLOps foundations needed to support AI at scale — from day one to Series C and beyond.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="background: rgba(255,255,255,0.01);">
+  <div class="process">
+    <div style="text-align: center;">
+      <div class="section-label">How We Work</div>
+      <div class="section-title">From Idea to Production in Weeks</div>
+      <div class="section-subtitle" style="margin: 0 auto 60px;">We move at startup speed. Our lean engagement model means you get results, not reports.</div>
+    </div>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Discover</h3>
+        <p>Deep-dive into your product, data landscape, and competitive positioning to find AI leverage points.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Design</h3>
+        <p>Architect the solution — model selection, data strategy, integration plan, and success metrics.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Build</h3>
+        <p>Rapid prototyping and iterative development with weekly demos. Ship MVPs in 4–6 weeks.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Scale</h3>
+        <p>Production deployment, monitoring, and optimization. We stay with you until it's running smoothly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats" id="results">
+  <div class="stat"><div class="stat-num">40+</div><div class="stat-label">AI Projects Delivered</div></div>
+  <div class="stat"><div class="stat-num">3.2x</div><div class="stat-label">Avg. ROI for Clients</div></div>
+  <div class="stat"><div class="stat-num">4 wk</div><div class="stat-label">Avg. Time to MVP</div></div>
+  <div class="stat"><div class="stat-num">96%</div><div class="stat-label">Client Retention</div></div>
+</div>
+
+<!-- USE CASES -->
+<section id="solutions">
+  <div class="usecases">
+    <div class="section-label">Solutions</div>
+    <div class="section-title">AI Use Cases We Ship</div>
+    <div class="section-subtitle">Proven solutions for the problems startups actually face.</div>
+    <div class="usecase-grid">
+      <div class="usecase-card">
+        <div class="usecase-tag tag-nlp">NLP</div>
+        <h4>Intelligent Search & Retrieval</h4>
+        <p>Semantic search, RAG pipelines, and knowledge bases that let your users find exactly what they need.</p>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-tag tag-ml">ML</div>
+        <h4>Predictive Analytics</h4>
+        <p>Churn prediction, demand forecasting, and lead scoring models that turn data into revenue.</p>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-tag tag-auto">Automation</div>
+        <h4>AI Agents & Workflows</h4>
+        <p>Autonomous agents that handle support tickets, data entry, document processing, and more.</p>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-tag tag-cv">Computer Vision</div>
+        <h4>Visual Intelligence</h4>
+        <p>Object detection, OCR, and image classification for industries from fintech to logistics.</p>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-tag tag-nlp">LLMs</div>
+        <h4>Custom GPT & LLM Apps</h4>
+        <p>Fine-tuned language models and LLM-powered features tailored to your domain and data.</p>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-tag tag-ml">Rec Systems</div>
+        <h4>Personalization Engines</h4>
+        <p>Recommendation systems that boost engagement, conversion, and time-on-platform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section>
+  <div class="testimonial-section">
+    <div class="section-label">What Clients Say</div>
+    <div class="testimonial-card">
+      <div class="quote-mark">"</div>
+      <blockquote>Barbrick didn't just give us a strategy deck — they shipped a production ML pipeline in 5 weeks that reduced our support costs by 40%. Best investment we made pre-Series B.</blockquote>
+      <div class="testimonial-author">Sarah Chen</div>
+      <div class="testimonial-role">CTO, Relay (YC W23)</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-section" style="padding: 0;">
+    <div class="cta-box">
+      <h2>Ready to Build Your AI Edge?</h2>
+      <p>Book a free 30-minute strategy call. No pitch decks, no fluff — just a real conversation about what AI can do for your business.</p>
+      <button class="btn-primary" style="font-size: 1.1rem; padding: 18px 42px;">Book Your Free Strategy Call →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="logo">Barbrick <span>AI Strategies</span></div>
+    <p>© 2026 Barbrick AI Strategies. All rights reserved.</p>
+  </div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#solutions">Solutions</a>
+    <a href="mailto:hello@barbrickai.com">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
